@@ -1,4 +1,4 @@
-from linked_binary_tree import LinkedBinaryTree
+from side_modules.linked_binary_tree import LinkedBinaryTree
 
 
 class Board:
@@ -81,6 +81,7 @@ class Board:
                         return board
                     elif already_generated is None:
                         return board
+
 
 if __name__ == "__main__":
     gm = Board()

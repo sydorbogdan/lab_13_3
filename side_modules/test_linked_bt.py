@@ -1,4 +1,4 @@
-from linked_binary_tree import LinkedBinaryTree
+from side_modules.linked_binary_tree import LinkedBinaryTree
 
 test_tr = LinkedBinaryTree(' a' )
 #test_tr.is_empty()

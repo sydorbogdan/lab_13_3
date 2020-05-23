@@ -1,4 +1,4 @@
-from list_binary_tree import *
+from side_modules.list_binary_tree import *
 
 test_tr = ListBinaryTree(3)
 insertLeft(test_tr,4)
