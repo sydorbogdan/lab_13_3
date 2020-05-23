@@ -1,4 +1,4 @@
-from Trees_easy.linked_binary_tree import LinkedBinaryTree
+from linked_binary_tree import LinkedBinaryTree
 
 
 class Board:
