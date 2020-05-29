@@ -8,24 +8,25 @@ class Board:
                       ['0', '0', '0']]
         self.last_move = []
 
-    def check_win(self):
+    @staticmethod
+    def check_win(board):
         for i in range(3):
-            if (self.board[i][0] == self.board[i][1]) and (
-                    self.board[i][0] == self.board[i][2]) and (
-                    self.board[i][0] != '0'):
-                return True
-            if (self.board[0][i] == self.board[1][i]) and (
-                    self.board[0][i] == self.board[2][i]) and (
-                    self.board[i][0] != '0'):
-                return True
-        if (self.board[0][0] == self.board[1][1]) and (
-                self.board[0][0] == self.board[2][2]) and (
-                self.board[0][0] != '0'):
-            return True
-        if (self.board[0][2] == self.board[1][1]) and (
-                self.board[0][2] == self.board[2][0]) and (
-                self.board[0][0] != '0'):
-            return True
+            if (board[i][0] == board[i][1]) and (
+                    board[i][0] == board[i][2]) and (
+                    board[i][0] != '0'):
+                return True, board[i][0]
+            if (board[0][i] == board[1][i]) and (
+                    board[0][i] == board[2][i]) and (
+                    board[i][0] != '0'):
+                return True, board[0][i]
+        if (board[0][0] == board[1][1]) and (
+                board[0][0] == board[2][2]) and (
+                board[0][0] != '0'):
+            return True, board[0][0]
+        if (board[0][2] == board[1][1]) and (
+                board[0][2] == board[2][0]) and (
+                board[0][0] != '0'):
+            return True, board[0][2]
         return False
 
     def recurs_tree_generation(self, tr, player_char):
@@ -47,22 +48,33 @@ class Board:
     def generate_tree(self, board, player_char):
         tr = LinkedBinaryTree(board)
         self.recurs_tree_generation(tr, player_char)
+        print(tr.get_right_child())
         return tr
 
-    @staticmethod
-    def count_points(tree):
-        pass
+    def count_points(self, tree, chr_1, chr_2):
+        def rec_count(vertex):
+            if vertex is None:
+                return 0
+            for row_ind in vertex.key:
+                if "0" in vertex.key[row_ind]:
+                    return rec_count(vertex.get_left_child()) + \
+                           rec_count(vertex.get_right_child())
+            check_rez = self.check_win(vertex.key)[0]
+            if check_rez[0] and check_rez[1] == chr_1:
+                return 1
+            elif check_rez[0] and check_rez[1] == chr_2:
+                return -1
+            return 0
+        return rec_count(tree)
 
-    def move(self):
-        tree = self.generate_tree(self.board, 'z')
-
-        # countinng_rez = self.count_points(tree)
-        #
-        # if countinng_rez[0] > countinng_rez[1]:
-        #     return tree.left
-        # else:
-        #     return tree.right
-        return tree
+    def move(self, chr_1, chr_2):
+        tree = self.generate_tree(self.board, chr_1)
+        print(tree)
+        if self.count_points(tree.get_left_child(), chr_1, chr_2) >= \
+                self.count_points(tree.get_right_child(), chr_1, chr_2):
+            self.board = tree.get_left_child().key
+        else:
+            self.board = tree.get_right_child().key
 
     @staticmethod
     def check_eq(brd_1, brd_2):
@@ -87,4 +99,4 @@ if __name__ == "__main__":
     gm = Board()
     print(gm.board)
     gm.generate_tree(gm.board, 'z').get_right_child()
-
+    print(gm.move('z', 'x'))
