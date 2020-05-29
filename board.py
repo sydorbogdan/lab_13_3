@@ -73,8 +73,8 @@ class Board:
         return True
 
     def generate_move(self, board, player_char, already_generated=None):
-        for i in range(2):
-            for j in range(2):
+        for i in range(3):
+            for j in range(3):
                 if board[i][j] == '0':
                     board[i][j] = player_char
                     if already_generated is not None and not self.check_eq(board, already_generated):
